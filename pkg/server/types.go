@@ -1,5 +1,7 @@
 package server
 
+import "github.com/metal3-io/baremetal-operator/apis/metal3.io/v1alpha1"
+
 //AdmissionReviewRespons for replies to incoming webhooks
 type AdmissionReviewResponse struct {
 	APIVersion string   `json:"apiVersion"`
@@ -61,19 +63,19 @@ type Options struct {
 	Kind       string `json:"kind"`
 }
 type Request struct {
-	UID                string          `json:"uid"`
-	Kind               Kind            `json:"kind"`
-	Resource           Resource        `json:"resource"`
-	SubResource        string          `json:"subResource"`
-	RequestKind        RequestKind     `json:"requestKind"`
-	RequestResource    RequestResource `json:"requestResource"`
-	RequestSubResource string          `json:"requestSubResource"`
-	Name               string          `json:"name"`
-	Namespace          string          `json:"namespace"`
-	Operation          string          `json:"operation"`
-	UserInfo           UserInfo        `json:"userInfo"`
-	Object             Object          `json:"object"`
-	OldObject          OldObject       `json:"oldObject"`
-	Options            Options         `json:"options"`
-	DryRun             bool            `json:"dryRun"`
+	UID                string                 `json:"uid"`
+	Kind               Kind                   `json:"kind"`
+	Resource           Resource               `json:"resource"`
+	SubResource        string                 `json:"subResource"`
+	RequestKind        RequestKind            `json:"requestKind"`
+	RequestResource    RequestResource        `json:"requestResource"`
+	RequestSubResource string                 `json:"requestSubResource"`
+	Name               string                 `json:"name"`
+	Namespace          string                 `json:"namespace"`
+	Operation          string                 `json:"operation"`
+	UserInfo           UserInfo               `json:"userInfo"`
+	Object             v1alpha1.BareMetalHost `json:"object"`
+	OldObject          OldObject              `json:"oldObject"`
+	Options            Options                `json:"options"`
+	DryRun             bool                   `json:"dryRun"`
 }

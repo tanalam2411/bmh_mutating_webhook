@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -37,7 +38,32 @@ Pod - RSOrchastrator
 
 */
 
+func PrintRequestBody(r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		fmt.Println("Failed to read request body: %v", err)
+	}
+
+	var bodyInterface interface{}
+
+	if err = json.Unmarshal(body, &bodyInterface); err != nil {
+		fmt.Println("Failed to unmarshal to bodyInterface: %v", err)
+	}
+
+	bodyJson, err := json.Marshal(bodyInterface)
+
+	if err != nil {
+		fmt.Println("Failed to Marhsal: %v", err)
+	}
+
+	fmt.Printf("\n\n\n---------------\n\n\n")
+	fmt.Println(string(bodyJson))
+	fmt.Printf("\n\n\n---------------\n\n\n")
+}
+
 func (s Server) PostWebhook(w http.ResponseWriter, r *http.Request) {
+	//PrintRequestBody(r)
 	var request AdmissionReviewRequest
 	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
@@ -50,6 +76,7 @@ func (s Server) PostWebhook(w http.ResponseWriter, r *http.Request) {
 
 	}
 	fmt.Printf("debug: %+v\n", request.Request)
+	fmt.Printf("debug object: %+v\n", request.Request.Object)
 	response := AdmissionReviewResponse{
 		APIVersion: "admission.k8s.io/v1",
 		Kind:       "AdmissionReview",
